@@ -7,4 +7,5 @@
              x:Class="MapsuiTest.MainPage">
 
   <mapsui:MapView x:Name="mapViewElement" />
+  
 </ContentPage>

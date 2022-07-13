@@ -17,8 +17,9 @@ public static class MauiProgram
 			});
 
     //dependency injection
-    //builder.Services.AddTransient<MainPage>();
+    builder.Services.AddTransient<MainPage>();
     //builder.Services.AddTransient<MainPageViewModel>();
+    builder.Services.AddSingleton<IGeolocation>(Geolocation.Default);
     return builder.Build();
 	}
 }
