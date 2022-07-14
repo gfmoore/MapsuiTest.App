@@ -2,7 +2,6 @@
 using Mapsui.Projections;
 using Mapsui.UI.Maui;
 using System.Diagnostics;
-using static Google.Android.Material.Tabs.TabLayout;
 
 namespace MapsuiTest;
 
@@ -67,9 +66,6 @@ public partial class MainPage : ContentPage
       Color = Colors.Blue,
     };
     mapViewElement.Pins.Add(myPin);
-
-
-
 
   }
 
