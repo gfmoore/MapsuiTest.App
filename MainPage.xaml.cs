@@ -9,9 +9,9 @@ public partial class MainPage : ContentPage
 {
 
   IGeolocation geolocation;
-    public Location location;
+  public Location location;
 
-  Mapsui.UI.Maui.MapControl mapControl;
+  public Mapsui.UI.Maui.MapControl mapControl;
 
   public MainPage(IGeolocation geolocation)
   {
@@ -75,7 +75,7 @@ public partial class MainPage : ContentPage
   {
     Debug.WriteLine("Got here");
     var smc = SphericalMercator.FromLonLat(0, 0);
-    mapControl.Map.Home = n => n.NavigateTo(new MPoint(smc.x, smc.y), mapControl.Map.Resolutions[10]);  //0 zoomed out-19 zoomed in
+    mapControl.Map.Home = n => n.NavigateTo(new MPoint(0, 0), mapControl.Map.Resolutions[10]);  //0 zoomed out-19 zoomed in
   }
 }
 
