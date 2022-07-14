@@ -11,7 +11,8 @@ public partial class MainPage : ContentPage
   IGeolocation geolocation;
   public Location location;
 
-  public Mapsui.UI.Maui.MapControl mapControl;
+  //public Mapsui.UI.Maui.MapControl mapControl;
+  MapControl mapControl = new MapControl();
 
   public MainPage(IGeolocation geolocation)
   {
@@ -26,6 +27,8 @@ public partial class MainPage : ContentPage
     location = new();
     await GetLocation();
     DrawMap();
+
+
   }
   public async Task GetLocation()
   {
@@ -46,36 +49,57 @@ public partial class MainPage : ContentPage
   public void DrawMap()
   {
     //setup mapsui
-    mapControl = new();
+    //mapControl = new();
 
     mapControl.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
 
     //navigate to my location
     var smc = SphericalMercator.FromLonLat(location.Longitude, location.Latitude);
     mapControl.Map.Home = n => n.NavigateTo(new MPoint(smc.x, smc.y), mapControl.Map.Resolutions[16]);  //0 zoomed out-19 zoomed in
-    
+
     //link to xaml
     mapViewElement.Map = mapControl.Map;
-    
+    mapViewElement.MapClicked += OnMapClicked;
+    mapViewElement.PinClicked += OnPinClicked;
+
     //add a pin
+    AddPin(location.Latitude, location.Longitude, Colors.Blue);
+
+  }
+
+  private void OnMapClicked(object sender, MapClickedEventArgs e)
+  {
+    Debug.WriteLine("Map clicked");
+  }
+
+  private void OnPinClicked(object sender, PinClickedEventArgs e)
+  {
+    Debug.WriteLine("Pin clicked");
+  }
+
+  public void AddPin(double latitude, double longitude, Color c)
+  {
     var myPin = new Pin(mapViewElement)
     {
-      Position = new Position(location.Latitude, location.Longitude),
+      Position = new Position(latitude, longitude),
       Type = PinType.Pin,
-      Label = "Zero point",
-      Address = "Zero point",
+      Label = "some text",
+      Address = "more text",
       Scale = 0.7F,
-      Color = Colors.Blue,
+      Color = c,
     };
     mapViewElement.Pins.Add(myPin);
-
   }
 
   private void Button_Clicked(object sender, EventArgs e)
   {
     Debug.WriteLine("Got here");
     var smc = SphericalMercator.FromLonLat(0, 0);
-    mapControl.Map.Home = n => n.NavigateTo(new MPoint(0, 0), mapControl.Map.Resolutions[10]);  //0 zoomed out-19 zoomed in
+    mapControl.Map.Home = n => n.NavigateTo(new MPoint(smc.x, smc.y), mapControl.Map.Resolutions[10]);  //0 zoomed out-19 zoomed in
+    mapControl.Refresh();
+    mapControl.Refresh(ChangeType.Continuous);
+    mapViewElement.Refresh(ChangeType.Continuous);
+    mapViewElement.Refresh();
+    mapViewElement.RefreshGraphics();
   }
 }
-
