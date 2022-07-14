@@ -6,6 +6,21 @@
              
              x:Class="MapsuiTest.MainPage">
 
-  <mapsui:MapView x:Name="mapViewElement" />
+  <Grid ColumnDefinitions="150, *">
+    <Button Grid.Column="0"
+            Text="Hitme" 
+            WidthRequest="120"
+            HeightRequest="40"
+            TextColor="White"
+            BackgroundColor="DarkGray"
+            Clicked="Button_Clicked"
+            Margin="0,0,0,0"
+            Padding="0,0,0,0"/>
+        
+    <mapsui:MapView Grid.Column="1"
+                    x:Name="mapViewElement" />
+
+  </Grid>
+
   
 </ContentPage>

@@ -11,6 +11,8 @@ public partial class MainPage : ContentPage
   IGeolocation geolocation;
     public Location location;
 
+  Mapsui.UI.Maui.MapControl mapControl;
+
   public MainPage(IGeolocation geolocation)
   {
     InitializeComponent();
@@ -44,7 +46,7 @@ public partial class MainPage : ContentPage
   public void DrawMap()
   {
     //setup mapsui
-    var mapControl = new Mapsui.UI.Maui.MapControl();
+    mapControl = new();
 
     mapControl.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
 
@@ -69,5 +71,11 @@ public partial class MainPage : ContentPage
 
   }
 
+  private void Button_Clicked(object sender, EventArgs e)
+  {
+    Debug.WriteLine("Got here");
+    var smc = SphericalMercator.FromLonLat(0, 0);
+    mapControl.Map.Home = n => n.NavigateTo(new MPoint(smc.x, smc.y), mapControl.Map.Resolutions[10]);  //0 zoomed out-19 zoomed in
+  }
 }
 
