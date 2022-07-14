@@ -59,6 +59,8 @@ public partial class MainPage : ContentPage
 
     //link to xaml
     mapViewElement.Map = mapControl.Map;
+
+    //add handlers
     mapViewElement.MapClicked += OnMapClicked;
     mapViewElement.PinClicked += OnPinClicked;
 
