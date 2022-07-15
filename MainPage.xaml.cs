@@ -60,11 +60,9 @@ public partial class MainPage : ContentPage
     //add handlers
     mapViewElement.MapClicked += OnMapClicked;
     mapViewElement.PinClicked += OnPinClicked;
-    Compass.ReadingChanged += Compass_ReadingChanged;
 
     //add a pin
     AddPin(location.Latitude, location.Longitude, Colors.Blue);
-
   }
 
   private void OnMapClicked(object sender, MapClickedEventArgs e)
