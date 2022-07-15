@@ -27,8 +27,6 @@ public partial class MainPage : ContentPage
     location = new();
     await GetLocation();
     DrawMap();
-
-
   }
   public async Task GetLocation()
   {
@@ -49,20 +47,20 @@ public partial class MainPage : ContentPage
   public void DrawMap()
   {
     //setup mapsui
-    //mapControl = new();
-
     mapControl.Map?.Layers.Add(Mapsui.Tiling.OpenStreetMap.CreateTileLayer());
 
-    //navigate to my location
-    var smc = SphericalMercator.FromLonLat(location.Longitude, location.Latitude);
-    mapControl.Map.Home = n => n.NavigateTo(new MPoint(smc.x, smc.y), mapControl.Map.Resolutions[16]);  //0 zoomed out-19 zoomed in
 
     //link to xaml
     mapViewElement.Map = mapControl.Map;
 
+    //navigate to my location
+    var smc = SphericalMercator.FromLonLat(location.Longitude, location.Latitude);
+    mapViewElement.Navigator.NavigateTo(new MPoint(smc.x, smc.y), mapControl.Map.Resolutions[16]);  //0 zoomed out-19 zoomed in
+
     //add handlers
     mapViewElement.MapClicked += OnMapClicked;
     mapViewElement.PinClicked += OnPinClicked;
+    Compass.ReadingChanged += Compass_ReadingChanged;
 
     //add a pin
     AddPin(location.Latitude, location.Longitude, Colors.Blue);
@@ -97,11 +95,7 @@ public partial class MainPage : ContentPage
   {
     Debug.WriteLine("Got here");
     var smc = SphericalMercator.FromLonLat(0, 0);
-    mapControl.Map.Home = n => n.NavigateTo(new MPoint(smc.x, smc.y), mapControl.Map.Resolutions[10]);  //0 zoomed out-19 zoomed in
-    mapControl.Refresh();
-    mapControl.Refresh(ChangeType.Continuous);
-    mapViewElement.Refresh(ChangeType.Continuous);
-    mapViewElement.Refresh();
-    mapViewElement.RefreshGraphics();
+
+    mapViewElement.Navigator.NavigateTo(new MPoint(0, 0), mapControl.Map.Resolutions[4]);  //0 zoomed out-19 zoomed in
   }
 }
